@@ -120,6 +120,8 @@
       align-items: center;
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
+      text-align: center;
+      padding: 30px;  
     }
 
     .card:hover .overlay {
