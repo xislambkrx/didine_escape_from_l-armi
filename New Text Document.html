@@ -146,6 +146,41 @@
         width: calc(100% / 2 - 10px);
       }
     }
+
+
+    .episode-container {
+    position: relative;
+    display: inline-block;
+}
+
+.episode-image {
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.episode-container:hover .episode-image {
+    transform: scale(1.1);
+}
+
+.episode-description {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* خلفية سوداء مع شفافية 85% */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.episode-container:hover .episode-description {
+    opacity: 1;
+}
+
   </style>
   <script>
     // Script from index1.html
@@ -239,6 +274,11 @@
           <p class="card-text">Episode title</p>
         </div>
       </div>
+      <div class="episode-container">
+    <img src="path-to-your-image.jpg" alt="Episode Image" class="episode-image">
+    <div class="episode-description">This is the description for episode 1</div>
+</div>
+
     </div>
   </div>
 </body>
