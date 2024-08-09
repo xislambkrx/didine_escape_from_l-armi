@@ -1,5 +1,4 @@
-
-    // Script from index1.html
+    // Script for filtering from index1.html
     document.addEventListener('DOMContentLoaded', function () {
       const filterButtons = document.querySelectorAll("#filter-buttons button");
       const filterableCards = document.querySelectorAll("#filterable-cards .card");
