@@ -1,93 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>One Piece: Combined</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch Apples Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="container1">
-    <div id="infos">
-      <div id="continue-watching-div">
-        <div id="continue-watching-shape">
-          <div id="continue-watching-txt">Continue Watching</div>
-        </div>
-      </div>
-      <div id="title">One Piece : Punk Hazard Arc</div>
-      <div id="last-episode-div">
-        <div id="last-episode-txt">Episode 589</div>
-        <a href="#" id="watch-div">Watch</a>
-      </div>
+    <div id="welcome-menu" class="menu">
+        <div>Welcome to Didine escape from <br><span>الخدمة الوطنية</span></div>
+        <br>
+        <div>by Islam Boukhari</div>
+        <button id="start-game">Start Game</button>
     </div>
-    <img id="last-arc-image" src="Hazard.png" alt="Punk Hazard Arc" />
-  </div>
-
-  <!-- Filterable Cards Section with Hover Effect -->
-  <div class="container">
-    <div class="row mt-5" id="filter-buttons">
-      <div class="col-12">
-        <button class="btn mb-2 me-1 active" data-filter="all">All</button>
-        <button class="btn mb-2 mx-1" data-filter="East Blue Arc">East Blue Arc</button>
-        <button class="btn mb-2 mx-1" data-filter="Little Garden Arc">Little Garden Arc</button>
-      </div>
+    <div id="game-container">
+        <img id="player" src="player.png" alt="Player">
+        <div id="score">X0</div>
+        <div id="controls">
+            <button id="left-arrow">&larr;</button>
+            <button id="right-arrow">&rarr;</button>
+        </div>
     </div>
-
-    <div class="row px-2 mt-4 gap-3" id="filterable-cards">
-      <div class="card p-0" data-name="East Blue Arc" id="episode-1">
-        <img src="episode1.jpg" alt="img"/>
-        <div class="overlay" id="episode-description">Episode 1</div>
-        <div class="card-body">
-          <h6 class="card-title">Episode 1</h6>
-          <p class="card-text">Episode title</p>
-        </div>
-      </div>
-      <div class="card p-0" data-name="East Blue Arc" id="episode-2">
-        <img src="episode2.jpg" alt="img"/>
-        <div class="overlay" id="episode-description">Episode 2</div>
-        <div class="card-body">
-          <h6 class="card-title">Episode 2</h6>
-          <p class="card-text">Episode title</p>
-        </div>
-      </div>
-      <div class="card p-0" data-name="East Blue Arc" id="episode-3">
-        <img src="episode3.jpg" alt="img"/>
-        <div class="overlay" id="episode-description">Episode 3</div>
-        <div class="card-body">
-          <h6 class="card-title">Episode 3</h6>
-          <p class="card-text">Episode title</p>
-        </div>
-      </div>
-      <div class="card p-0" data-name="Little Garden Arc" id="episode-4");">
-        <img src="episode4.jpg" alt="img"/>
-        <div class="overlay" id="episode-description">Episode 4</div>
-        <div class="card-body">
-          <h6 class="card-title">Episode 4</h6>
-          <p class="card-text">Episode title</p>
-        </div>
-      </div>
-      <div class="card p-0" data-name="Little Garden Arc" id="episode-5">
-        <img src="episode5.jpg" alt="img" />
-        <div class="overlay" id="episode-description">Episode 5</div>
-        <div class="card-body">
-          <h6 class="card-title">Episode 5</h6>
-          <p class="card-text">Episode title</p>
-        </div>
-      </div>
-      <div class="card p-0" data-name="Little Garden Arc" id="episode-6">
-        <img src="episode6.jpg" alt="img"/>
-        <div class="overlay" id="episode-description">Episode 6</div>
-        <div class="card-body">
-          <h6 class="card-title">Episode 6</h6>
-          <p class="card-text">Episode title</p>
-        </div>
-      </div>
+    <div id="game-over-menu" class="menu" style="display: none;">
+        <div>You Lost</div>
+        <div>حكماتك الخدمة الوطنية</div>
+        <button id="replay-game">Play Again</button>
     </div>
-  </div>
+    <script src="script.js"></script>
 </body>
 </html>
