@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch Apples Game</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+        *{
+            font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+        }
+        body {
+            background-image: url('wood.jpg');
+            background-size: cover;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        #game-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            border: 2px solid #000;
+            overflow: hidden;
+            display: none; /* Hide game container until game starts */
+        }
+        #player {
+            width: 140px;
+            position: absolute;
+            bottom: 0;
+            left: 130px;
+        }
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            color: white;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+        #controls button {
+            width: 50px;
+            height: 50px;
+            margin: 0 10px;
+            font-size: 24px;
+        }
+        .menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
+        .menu button {
+            margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background: #00000082;
+        }
+        /* تنسيقات عامة للصور المتساقطة حسب الـ id */
+#lw {
+    height: 90px;
+    position: absolute;
+    top: 0;
+    transition: top 0.5s linear;
+}
+
+#karan, #garo {
+    height: 70px;
+    position: absolute;
+    top: 0;
+    transition: top 0.5s linear;
+}
+span{
+    font-family: "Cairo", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0;
+}
+    </style>
+</head>
+<body>
+    <div id="welcome-menu" class="menu">
+        <div>Welcome to Didine escape from <br><span>الخدمة الوطنية</span></div>
+        <br>
+        <div>by Islam Boukhari</div>
+        <button id="start-game">Start Game</button>
+    </div>
+    <div id="game-container">
+        <img id="player" src="player.png" alt="Player">
+        <div id="score">X0</div>
+        <div id="controls">
+            <button id="left-arrow">&larr;</button>
+            <button id="right-arrow">&rarr;</button>
+        </div>
+    </div>
+    <div id="game-over-menu" class="menu" style="display: none;">
+        <div>You Lost</div>
+        <div>حكماتك الخدمة الوطنية</div>
+        <button id="replay-game">Play Again</button>
+    </div>
+    <script>
+        
+const player = document.getElementById('player');
+const scoreDisplay = document.getElementById('score');
+const gameContainer = document.getElementById('game-container');
+const welcomeMenu = document.getElementById('welcome-menu');
+const gameOverMenu = document.getElementById('game-over-menu');
+const startGameButton = document.getElementById('start-game');
+const replayGameButton = document.getElementById('replay-game');
+const leftArrow = document.getElementById('left-arrow');
+const rightArrow = document.getElementById('right-arrow');
+let score = 0;
+let lives = 3;
+let playerPosition = 130;
+let moveInterval;
+let fallingItems = [];
+let isMovingLeft = false;
+let isMovingRight = false;
+let isPaused = false;
+let tiniAudio = new Audio('tini.mp3'); // تعريف الصوت
+
+function startGame() {
+    welcomeMenu.style.display = 'none';
+    gameContainer.style.display = 'block';
+    tiniAudio.play(); // تشغيل الصوت عند بدء اللعبة
+    gameLoop();
+}
+
+// تحريك اللاعب بناءً على الأسهم أو الأزرار
+function movePlayer() {
+    if (isMovingLeft && playerPosition > 0) {
+        playerPosition -= 5;
+    }
+    if (isMovingRight && playerPosition < 250) {
+        playerPosition += 5;
+    }
+    player.style.left = `${playerPosition}px`;
+}
+
+// التعامل مع ضغطات لوحة المفاتيح
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+        isMovingLeft = true;
+    } else if (e.key === 'ArrowRight') {
+        isMovingRight = true;
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.key === 'ArrowLeft') {
+        isMovingLeft = false;
+    } else if (e.key === 'ArrowRight') {
+        isMovingRight = false;
+    }
+});
+
+// التعامل مع أزرار التحكم
+leftArrow.addEventListener('mousedown', () => {
+    isMovingLeft = true;
+});
+leftArrow.addEventListener('mouseup', () => {
+    isMovingLeft = false;
+});
+rightArrow.addEventListener('mousedown', () => {
+    isMovingRight = true;
+});
+rightArrow.addEventListener('mouseup', () => {
+    isMovingRight = false;
+});
+
+// اللعبة الرئيسية
+function gameLoop() {
+    setInterval(() => {
+        if (!isPaused) {
+            const items = ['karan', 'garo', 'lw'];
+            const randomItem = items[Math.floor(Math.random() * items.length)];
+            createFallingItem(randomItem, `${randomItem}.png`);
+        }
+    }, 1000);
+
+    setInterval(movePlayer, 16);  // تحريك اللاعب باستمرار
+}
+
+function createFallingItem(id, src) {
+    const item = document.createElement('img');
+    item.classList.add('item');
+    item.src = src;
+    item.id = id;
+    item.style.left = `${Math.floor(Math.random() * 350)}px`;
+    item.style.top = '0px';
+    gameContainer.appendChild(item);
+    fallingItems.push(item);
+
+    let fallInterval = setInterval(() => {
+        if (!isPaused) {
+            const itemTop = item.offsetTop + 60;
+            item.style.top = `${itemTop}px`;
+
+            if (itemTop >= player.offsetTop - item.clientHeight && itemTop <= player.offsetTop + player.clientHeight) {
+                handleCollision(item);
+            }
+
+            if (itemTop > gameContainer.clientHeight) {
+                clearInterval(fallInterval);
+                gameContainer.removeChild(item);
+                fallingItems = fallingItems.filter(i => i !== item);
+            }
+        }
+    }, 3);
+}
+
+function handleCollision(item) {
+    const playerRect = player.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+
+    const isCollision = !(
+        playerRect.right < itemRect.left ||
+        playerRect.left > itemRect.right ||
+        playerRect.bottom < itemRect.top ||
+        playerRect.top > itemRect.bottom
+    );
+
+    if (isCollision) {
+        gameContainer.removeChild(item);
+        fallingItems = fallingItems.filter(i => i !== item);
+
+        if (item.id === 'karan' || item.id === 'garo') {
+            score++;
+            scoreDisplay.textContent = `X${score}`;
+            new Audio('haha.mp3').play();
+        } else if (item.id === 'lw') {
+            lives--;
+            new Audio('ohno.mp3').play();
+            if (lives === 0) {
+                new Audio('wi9.mp3').play();
+                endGame();
+            }
+        }
+    }
+}
+
+function endGame() {
+    gameContainer.style.display = 'none';
+    gameOverMenu.style.display = 'block';
+    tiniAudio.pause(); // إيقاف الصوت عند نهاية اللعبة
+    tiniAudio.currentTime = 0; // إعادة الصوت إلى البداية
+}
+
+startGameButton.addEventListener('click', startGame);
+replayGameButton.addEventListener('click', () => {
+    location.reload();
+});
+
+    </script>
+</body>
+</html>
