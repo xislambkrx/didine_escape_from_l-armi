@@ -1,4 +1,3 @@
-
 const player = document.getElementById('player');
 const scoreDisplay = document.getElementById('score');
 const gameContainer = document.getElementById('game-container');
